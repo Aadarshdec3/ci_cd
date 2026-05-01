@@ -1,2 +1,1 @@
-pandas
-pip
+pandas>=2.0.0
