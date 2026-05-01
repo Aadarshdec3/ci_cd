@@ -1,0 +1,44 @@
+name: ETL Pipeline
+
+on:
+  push:
+    branches:
+      - dev
+      - qa
+      - main
+
+jobs:
+  run-etl:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout code
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # 2. Setup Python
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      # 3. Install dependencies
+      - name: Install Dependencies
+        run: |
+          pip install pandas sqlite3
+
+      # 4. Set environment based on branch
+      - name: Set ENV variable
+        run: |
+          if [[ "${GITHUB_REF_NAME}" == "dev" ]]; then
+            echo "ENV=dev" >> $GITHUB_ENV
+          elif [[ "${GITHUB_REF_NAME}" == "qa" ]]; then
+            echo "ENV=qa" >> $GITHUB_ENV
+          else
+            echo "ENV=prod" >> $GITHUB_ENV
+          fi
+
+      # 5. Run ETL
+      - name: Run ETL Pipeline
+        run: |
+          python src/transformation.py

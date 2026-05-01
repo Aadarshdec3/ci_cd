@@ -1,0 +1,20 @@
+# Data folder
+data/
+
+# Notebooks
+notebooks/
+
+# Requirements file
+explore_requirements.txt
+
+# Virtual environment
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# SQLite DB files (optional)
+*.db
+
+db/
