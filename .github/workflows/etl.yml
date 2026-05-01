@@ -28,7 +28,7 @@ jobs:
           pip install --upgrade pip
           pip install -r requirements.txt
 
-      # 4. Set environment based on branch
+      # 4. Set ENV variable
       - name: Set ENV variable
         run: |
           if [[ "${GITHUB_REF_NAME}" == "dev" ]]; then
@@ -43,3 +43,10 @@ jobs:
       - name: Run ETL Pipeline
         run: |
           python src/transformation.py
+
+      # 6. Upload DB artifact
+      - name: Upload DB artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: etl-db
+          path: db/
